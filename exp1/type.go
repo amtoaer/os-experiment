@@ -90,6 +90,7 @@ func (m Model) String() string {
 
 // 为状态模型绑定带注释的输出方法
 func (m Model) printWithComment(comment string) {
+	clear()
 	fmt.Println(m)
 	fmt.Println(comment)
 	fmt.Scanln()
@@ -98,14 +99,13 @@ func (m Model) printWithComment(comment string) {
 // 管理接口
 type Manager interface {
 	// 主动调用方法
-	Dispatch()
 	Timeout()
 	EventWait()
 	EventOccur()
 	Create()
-	OutsideMemoryEventOccur()
+	Release()
 	// 被动调用方法
-	acitive()
+	dispatch()
 	admit()
 }
 

@@ -17,6 +17,12 @@ func main() {
 			switch scanner.Text() {
 			case "Create":
 				manager.Create()
+			case "EventWait":
+				manager.EventWait()
+			case "EventOccur":
+				manager.EventOccur()
+			case "Release":
+				manager.Release()
 			}
 		}
 	}
