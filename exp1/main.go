@@ -21,6 +21,8 @@ func main() {
 				manager.EventWait()
 			case "EventOccur":
 				manager.EventOccur()
+			case "Timeout":
+				manager.Timeout()
 			case "Release":
 				manager.Release()
 			}
