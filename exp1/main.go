@@ -7,7 +7,10 @@ import (
 )
 
 func main() {
-	manager := NewManager(4000)
+	var memory int
+	fmt.Println("请输入模型总内存（单位MiB）")
+	fmt.Scan(&memory)
+	manager := NewManager(memory)
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		clear()
