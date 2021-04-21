@@ -73,6 +73,8 @@ func (m *Model) Release() {
 		m.Running = m.Running[:0]
 		m.CurrentMemory -= toRelease.Memory
 		m.printWithComment("将“运行”进程放到“退出”中")
+		// 尝试从新建中取出新的就绪
+		m.admit()
 		// 尝试调度
 		m.dispatch()
 	} else {
@@ -81,16 +83,15 @@ func (m *Model) Release() {
 }
 
 func (m *Model) admit() {
-	item := m.New.Pop().(Process)
-	// 如果放入模型中会导致内存溢出则放入就绪挂起
-	if m.CurrentMemory+item.Memory > m.MaxMemory {
-		heap.Push(&m.ReadySuspend, item)
-		m.printWithComment("将“新建”中的新进程放入“就绪挂起”")
-	} else {
-		// 否则放入就绪
-		heap.Push(&m.Ready, item)
-		m.CurrentMemory += item.Memory
-		m.printWithComment("将“新建”中的新进程放入“就绪”")
-		m.dispatch()
+	if len(m.New) > 0 {
+		item := m.New[0]
+		if m.CurrentMemory+item.Memory <= m.MaxMemory {
+			// 放入就绪
+			m.New.Pop()
+			heap.Push(&m.Ready, item)
+			m.CurrentMemory += item.Memory
+			m.printWithComment("将“新建”中的新进程放入“就绪”")
+			m.dispatch()
+		}
 	}
 }

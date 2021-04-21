@@ -66,8 +66,8 @@ func (p *PQueue) Pop() interface{} {
 
 // 调度模型
 type Model struct {
-	// 七状态优先队列
-	New, ReadySuspend, Ready, Running, BlockedSuspend, Blocked, Exit PQueue
+	// 五状态优先队列
+	New, Ready, Running, Blocked, Exit PQueue
 	// 最大内存
 	MaxMemory int
 	// 当前内存
@@ -81,11 +81,9 @@ func (m Model) String() string {
 当前内存：%vMB
 新建：%v
 就绪：%v
-就绪挂起：%v
 阻塞：%v
-阻塞挂起：%v
 运行：%v
-退出：%v`, m.MaxMemory, m.CurrentMemory, m.New, m.Ready, m.ReadySuspend, m.Blocked, m.BlockedSuspend, m.Running, m.Exit)
+退出：%v`, m.MaxMemory, m.CurrentMemory, m.New, m.Ready, m.Blocked, m.Running, m.Exit)
 }
 
 // 为状态模型绑定带注释的输出方法
