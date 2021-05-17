@@ -1,4 +1,17 @@
+#include <queue>
 #include <unordered_map>
+
+class PermutationAlgo {
+protected:
+    int capacity;
+    int count, missCount;
+
+public:
+    virtual void get(int) = 0;
+    float getMissingRate();
+    int getCount();
+    int getMissCount();
+};
 
 // 单个节点
 typedef struct Node {
@@ -26,15 +39,22 @@ public:
     void moveToFirst(Node*);
 };
 
-class LRU {
+class LRU : public PermutationAlgo {
 private:
-    int length, capacity;
-    int count, missCount;
     std::unordered_map<int, Node*> cache;
     DoubleList d;
 
 public:
     LRU(int);
     void get(int);
-    float getMissingRate();
+};
+
+class FIFO : public PermutationAlgo {
+private:
+    std::unordered_map<int, bool> cache;
+    std::queue<int> queue;
+
+public:
+    FIFO(int);
+    void get(int);
 };
