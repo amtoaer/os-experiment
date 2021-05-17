@@ -1,9 +1,11 @@
-#include <header.h>
+#include "header.h"
 
 DoubleList::DoubleList()
 {
-    this->begin = &Node();
-    this->end = &Node();
+    auto begin = Node();
+    auto end = Node();
+    this->begin = &begin;
+    this->end = &end;
     this->begin->next = this->end;
     this->end->next = this->begin;
 }
@@ -11,10 +13,11 @@ DoubleList::DoubleList()
 Node* DoubleList::insertNode(int key)
 {
     auto tmp = this->begin->next;
-    auto newNode = &Node(key, this->begin, tmp);
-    this->begin->next = newNode;
-    tmp->prev = newNode;
-    return newNode;
+    auto newNode = Node(key, this->begin, tmp);
+    auto newNodePointer = &newNode;
+    this->begin->next = newNodePointer;
+    tmp->prev = newNodePointer;
+    return newNodePointer;
 }
 
 void DoubleList::deleteNode(Node* node)
@@ -44,6 +47,8 @@ LRU::LRU(int capacity)
 {
     this->d = DoubleList();
     this->capacity = capacity;
+    this->count = 0;
+    this->missCount = 0;
 }
 
 void LRU::get(int k)
@@ -66,9 +71,4 @@ void LRU::get(int k)
         auto node = this->d.insertNode(k);
         this->cache[k] = node;
     }
-}
-
-float LRU::getMissingRate()
-{
-    return float(this->missCount) / this->count;
 }
