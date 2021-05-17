@@ -33,6 +33,7 @@ private:
 
 public:
     DoubleList();
+    ~DoubleList();
     Node* insertNode(int);
     void deleteNode(Node*);
     Node* getLast();
